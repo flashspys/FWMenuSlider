@@ -49,6 +49,7 @@ class SlideMenu: FWDefaultSlideMenuViewController, UITableViewDelegate, UITableV
             cell?.backgroundColor = UIColor(red: 255/255, green: 82/255, blue: 82/255, alpha: 0.4)
         }
         cell?.textLabel?.text = menu[indexPath.row]
+        cell?.selectionStyle = .Blue
         return cell!
     }
 
@@ -60,6 +61,8 @@ class SlideMenu: FWDefaultSlideMenuViewController, UITableViewDelegate, UITableV
     
     override func progressChanged(progress: CGFloat) {
         self.imageView.alpha = 1-progress
+        self.label.alpha = 1-progress
+        self.tableView.alpha = 1-progress
         self.topConst.constant = -50*progress + 4
         self.view.layoutIfNeeded()
 
@@ -69,10 +72,14 @@ class SlideMenu: FWDefaultSlideMenuViewController, UITableViewDelegate, UITableV
         UIView.animateWithDuration(0.3) { () -> Void in
             if state == .Opened {
                 self.imageView.alpha = 1
+                self.label.alpha = 1
+                self.tableView.alpha = 1
                 self.topConst.constant = 4
                 self.view.layoutIfNeeded()
             } else {
                 self.imageView.alpha = 0
+                self.tableView.alpha = 0
+                self.label.alpha = 0
                 self.topConst.constant = -46
                 self.view.layoutIfNeeded()
             }
