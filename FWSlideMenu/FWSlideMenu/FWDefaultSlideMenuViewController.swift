@@ -9,9 +9,10 @@
 import UIKit
 
 public class FWDefaultSlideMenuViewController: UIViewController, FWSlideMenuViewController {
-
-    public var controller: FWSlideMenuController?
     
+    public func setController(controller: FWSlideMenuController) {
+        
+    }
     
     public func progressChanged(progress: CGFloat) {
         

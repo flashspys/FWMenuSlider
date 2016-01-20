@@ -10,7 +10,6 @@
 		DC661E081C4F197800C076F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC661DFE1C4F197800C076F7 /* AppDelegate.swift */; };
 		DC661E091C4F197800C076F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC661DFF1C4F197800C076F7 /* Assets.xcassets */; };
 		DC661E0C1C4F197800C076F7 /* ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC661E051C4F197800C076F7 /* ChildViewController.swift */; };
-		DC661E0D1C4F197800C076F7 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC661E061C4F197800C076F7 /* Info.plist */; };
 		DC661E0E1C4F197800C076F7 /* SlideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC661E071C4F197800C076F7 /* SlideMenu.swift */; };
 		DC661E171C4F1A4800C076F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC661E151C4F1A4800C076F7 /* Main.storyboard */; };
 		DC661E1A1C4F1A4E00C076F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC661E181C4F1A4E00C076F7 /* LaunchScreen.storyboard */; };
@@ -150,7 +149,6 @@
 				DC661E171C4F1A4800C076F7 /* Main.storyboard in Resources */,
 				DC661E1A1C4F1A4E00C076F7 /* LaunchScreen.storyboard in Resources */,
 				DC661E091C4F197800C076F7 /* Assets.xcassets in Resources */,
-				DC661E0D1C4F197800C076F7 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

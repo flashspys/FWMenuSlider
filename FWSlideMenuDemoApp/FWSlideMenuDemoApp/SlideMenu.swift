@@ -9,7 +9,7 @@
 import UIKit
 import FWSlideMenu
 
-class SlideMenu: FWDefaultSlideMenuViewController, UITableViewDelegate, UITableViewDataSource {
+class SlideMenu: UIViewController, FWSlideMenuViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var label: UILabel!
@@ -17,6 +17,12 @@ class SlideMenu: FWDefaultSlideMenuViewController, UITableViewDelegate, UITableV
     @IBOutlet weak var topConst: NSLayoutConstraint!
     
     let menu = ["Vertretungsplan", "Klausuren", "Einstellungen", "Termine", "Lehrerliste", "Abmelden"]
+
+    var slideController: FWSlideMenuController?
+    
+    func setController(controller: FWSlideMenuController) {
+        self.slideController = controller
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,10 +62,10 @@ class SlideMenu: FWDefaultSlideMenuViewController, UITableViewDelegate, UITableV
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
-        self.controller?.displayViewController((self.controller?.childViewControllers[indexPath.row])!)
+        self.slideController?.displayViewController(index: indexPath.row)
     }
     
-    override func progressChanged(progress: CGFloat) {
+    func progressChanged(progress: CGFloat) {
         self.imageView.alpha = 1-progress
         self.label.alpha = 1-progress
         self.tableView.alpha = 1-progress
@@ -68,7 +74,7 @@ class SlideMenu: FWDefaultSlideMenuViewController, UITableViewDelegate, UITableV
 
     }
     
-    override func progressFinished(state: SlideState) {
+    func progressFinished(state: SlideState) {
         UIView.animateWithDuration(0.3) { () -> Void in
             if state == .Opened {
                 self.imageView.alpha = 1

@@ -15,26 +15,16 @@ public enum SlideState {
     case Closing
 }
 
-public protocol FWSlideMenuControllerDelegate {
-    func slideStateChanged(state: SlideState)
-}
-
 public protocol FWSlideMenuViewController {
-    var controller: FWSlideMenuController? { get set }
-    
     func progressChanged(progress: CGFloat)
     func progressFinished(state: SlideState)
+    func setController(controller: FWSlideMenuController)
 }
 
 public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
-
-    public var delegate: FWSlideMenuControllerDelegate?
-    public var slideMenuViewController: FWDefaultSlideMenuViewController
     
     private var slideState: SlideState  = .Closed {
         didSet {
-            self.delegate?.slideStateChanged(slideState)
-            
             if slideState != .Closed {
                 self.panRecognizer?.enabled = true
             } else {
@@ -43,20 +33,25 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         }
     }
     
+    
+    var slideMenuViewController: UIViewController
+    
     private var screenEdgePanRecognizer: UIScreenEdgePanGestureRecognizer?
     private var panRecognizer: UIPanGestureRecognizer?
     private var tapRecognizer: UITapGestureRecognizer?
     
-    public var activeChild: UIViewController?
+    private var activeChild: UIViewController?
+    private let transparentLayerKey = "transparentLayerKey"
+    private let transparentLayerAnimationKey = "transparentLayerAnimationKey"
     
     public var slideOverFactor: CGFloat = 0.7
-    public var slideDuration = 0.4
-    let zoomFactor: CGFloat = 0.9
+    public var slideDuration: Double = 0.4
+    private let zoomFactor: CGFloat = 0.9
     
-    public init(childs: [UIViewController], slideMenuController: FWDefaultSlideMenuViewController) {
+    public init<T:UIViewController where T:FWSlideMenuViewController>(childs: [UIViewController], slideMenuController: T) {
         self.slideMenuViewController = slideMenuController
         super.init(nibName: nil, bundle: nil)
-        self.slideMenuViewController.controller = self
+        (self.slideMenuViewController as! FWSlideMenuViewController).setController(self)
         
         for vc in childs {
             self.addChildViewController(vc)
@@ -75,7 +70,7 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         transparentLayer.backgroundColor = UIColor.blackColor().CGColor
         transparentLayer.frame = childController.view.frame
         transparentLayer.opacity = 0
-        transparentLayer.name = "transparentLayer"
+        transparentLayer.name = self.transparentLayerKey
         childController.view.layer.addSublayer(transparentLayer)
         
         super.addChildViewController(childController)
@@ -84,6 +79,10 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
     
     public func openSlideMenu() {
         self.moveSlideMenu(0, animated: true)
+    }
+    
+    public func closeSlideMenu() {
+        self.moveSlideMenu(-self.slideMenuViewController.view.frame.width, animated: true)
     }
     
     private func flip(from: UIViewController, to: UIViewController) {
@@ -111,6 +110,10 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         
         self.activeChild = vc
         moveSlideMenu(self.slideMenuViewController.view.frame.width * (-1), animated: true)
+    }
+    
+    public func displayViewController(index index: Int) {
+        self.displayViewController(self.childViewControllers[index])
     }
     
     override public func viewDidLoad() {
@@ -204,12 +207,12 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         
         if point.x == 0 {
             self.slideState = .Opened
-            self.slideMenuViewController.progressFinished(.Opened)
+            (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.Opened)
         } else if point.x == -self.slideMenuViewController.view.frame.width {
             self.slideState = .Closed
-            self.slideMenuViewController.progressFinished(.Closed)
+            (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.Closed)
         } else { // We're in animation
-            self.slideMenuViewController.progressChanged((currentProgress - 0.9) / 0.1) // convert our currentProgress to interval [0,1]
+            (self.slideMenuViewController as! FWSlideMenuViewController).progressChanged((currentProgress - 0.9) / 0.1) // convert our currentProgress to interval [0,1]
         }
         
         // Animate the slideMenuView
@@ -225,10 +228,10 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         self.animateActiveChild(currentProgress, toState: self.slideState)
     }
     
-    func animateActiveChild(progress: CGFloat, toState state: SlideState) {
+    private func animateActiveChild(progress: CGFloat, toState state: SlideState) {
         
         // Get our transparentLayer.
-        let transparentLayer = self.activeChild?.view.layer.sublayers!.filter({$0.name == "transparentLayer"})[0]
+        let transparentLayer = self.activeChild?.view.layer.sublayers!.filter({$0.name == self.transparentLayerKey})[0]
         
         let basicAnimation = CABasicAnimation(keyPath: "opacity")
         basicAnimation.duration = 0.35
@@ -246,7 +249,7 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
             transparentLayer!.opacity = Float(0.5-(progress-0.9)*(0.5)/(0.1))
         }
         
-        transparentLayer!.addAnimation(basicAnimation, forKey: "transparentAnimation")
+        transparentLayer!.addAnimation(basicAnimation, forKey: self.transparentLayerAnimationKey)
         
         
         // Animate all the 3D stuff
