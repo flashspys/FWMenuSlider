@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         let story = UIStoryboard(name: "Main", bundle: nil)
         
-        let vc = story.instantiateInitialViewController() as! ViewController
+        let vc = story.instantiateInitialViewController() as! SlideMenu
         
         let child1 = story.instantiateViewControllerWithIdentifier("child1")
         child1.view.backgroundColor = UIColor.brownColor()
@@ -27,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         child2.view.backgroundColor = UIColor.lightGrayColor()
         
         self.window?.rootViewController = FWSlideMenuController(childs: [child1, child2], slideMenuController: vc)
+        self.window?.rootViewController?.view.backgroundColor = UIColor(patternImage: UIImage(named: "pattern2")!)
+        
         
         return true
     }

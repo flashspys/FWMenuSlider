@@ -7,14 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DC01D1D91C4D5FC60003748E /* FWSlideMenu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC01D1D21C4D58930003748E /* FWSlideMenu.framework */; };
-		DC01D1DA1C4D5FC60003748E /* FWSlideMenu.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DC01D1D21C4D58930003748E /* FWSlideMenu.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DC01D1DC1C4D8EBB0003748E /* ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC01D1DB1C4D8EBB0003748E /* ChildViewController.swift */; };
-		DCF8E9291C4D12B40020F360 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF8E9281C4D12B40020F360 /* AppDelegate.swift */; };
-		DCF8E92B1C4D12B40020F360 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF8E92A1C4D12B40020F360 /* ViewController.swift */; };
-		DCF8E92E1C4D12B40020F360 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCF8E92C1C4D12B40020F360 /* Main.storyboard */; };
-		DCF8E9301C4D12B40020F360 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCF8E92F1C4D12B40020F360 /* Assets.xcassets */; };
-		DCF8E9331C4D12B40020F360 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCF8E9311C4D12B40020F360 /* LaunchScreen.storyboard */; };
+		DC661E081C4F197800C076F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC661DFE1C4F197800C076F7 /* AppDelegate.swift */; };
+		DC661E091C4F197800C076F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC661DFF1C4F197800C076F7 /* Assets.xcassets */; };
+		DC661E0C1C4F197800C076F7 /* ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC661E051C4F197800C076F7 /* ChildViewController.swift */; };
+		DC661E0D1C4F197800C076F7 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC661E061C4F197800C076F7 /* Info.plist */; };
+		DC661E0E1C4F197800C076F7 /* SlideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC661E071C4F197800C076F7 /* SlideMenu.swift */; };
+		DC661E171C4F1A4800C076F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC661E151C4F1A4800C076F7 /* Main.storyboard */; };
+		DC661E1A1C4F1A4E00C076F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC661E181C4F1A4E00C076F7 /* LaunchScreen.storyboard */; };
+		DC661E1C1C4F1A9400C076F7 /* FWSlideMenu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC661E1B1C4F1A9400C076F7 /* FWSlideMenu.framework */; };
+		DC661E1D1C4F1A9400C076F7 /* FWSlideMenu.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DC661E1B1C4F1A9400C076F7 /* FWSlideMenu.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +25,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				DC01D1DA1C4D5FC60003748E /* FWSlideMenu.framework in Embed Frameworks */,
+				DC661E1D1C4F1A9400C076F7 /* FWSlideMenu.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -32,15 +33,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		DC01D1D21C4D58930003748E /* FWSlideMenu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = FWSlideMenu.framework; path = "/Users/Felix/Library/Developer/Xcode/DerivedData/FWSlideMenu-gmrmdbrvftyxssduumgfcuquutkg/Build/Products/Debug-iphoneos/FWSlideMenu.framework"; sourceTree = "<absolute>"; };
-		DC01D1DB1C4D8EBB0003748E /* ChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildViewController.swift; sourceTree = "<group>"; };
+		DC661DFE1C4F197800C076F7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = FWSlideMenuDemoApp/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
+		DC661DFF1C4F197800C076F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = FWSlideMenuDemoApp/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+		DC661E051C4F197800C076F7 /* ChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChildViewController.swift; path = FWSlideMenuDemoApp/ChildViewController.swift; sourceTree = SOURCE_ROOT; };
+		DC661E061C4F197800C076F7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = FWSlideMenuDemoApp/Info.plist; sourceTree = SOURCE_ROOT; };
+		DC661E071C4F197800C076F7 /* SlideMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SlideMenu.swift; path = FWSlideMenuDemoApp/SlideMenu.swift; sourceTree = SOURCE_ROOT; };
+		DC661E161C4F1A4800C076F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = FWSlideMenuDemoApp/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
+		DC661E191C4F1A4E00C076F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = FWSlideMenuDemoApp/Base.lproj/LaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
+		DC661E1B1C4F1A9400C076F7 /* FWSlideMenu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = FWSlideMenu.framework; path = "/Users/Felix/Library/Developer/Xcode/DerivedData/FWSlideMenu-dntvgctefbzxpobpsisdddrhhngm/Build/Products/Debug-iphoneos/FWSlideMenu.framework"; sourceTree = "<absolute>"; };
 		DCF8E9251C4D12B40020F360 /* FWSlideMenuDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FWSlideMenuDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DCF8E9281C4D12B40020F360 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DCF8E92A1C4D12B40020F360 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		DCF8E92D1C4D12B40020F360 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		DCF8E92F1C4D12B40020F360 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		DCF8E9321C4D12B40020F360 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		DCF8E9341C4D12B40020F360 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC01D1D91C4D5FC60003748E /* FWSlideMenu.framework in Frameworks */,
+				DC661E1C1C4F1A9400C076F7 /* FWSlideMenu.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,7 +59,7 @@
 		DCF8E91C1C4D12B40020F360 = {
 			isa = PBXGroup;
 			children = (
-				DC01D1D21C4D58930003748E /* FWSlideMenu.framework */,
+				DC661E1B1C4F1A9400C076F7 /* FWSlideMenu.framework */,
 				DCF8E9271C4D12B40020F360 /* FWSlideMenuDemoApp */,
 				DCF8E9261C4D12B40020F360 /* Products */,
 			);
@@ -75,13 +76,13 @@
 		DCF8E9271C4D12B40020F360 /* FWSlideMenuDemoApp */ = {
 			isa = PBXGroup;
 			children = (
-				DCF8E9281C4D12B40020F360 /* AppDelegate.swift */,
-				DCF8E92A1C4D12B40020F360 /* ViewController.swift */,
-				DC01D1DB1C4D8EBB0003748E /* ChildViewController.swift */,
-				DCF8E92C1C4D12B40020F360 /* Main.storyboard */,
-				DCF8E92F1C4D12B40020F360 /* Assets.xcassets */,
-				DCF8E9311C4D12B40020F360 /* LaunchScreen.storyboard */,
-				DCF8E9341C4D12B40020F360 /* Info.plist */,
+				DC661DFE1C4F197800C076F7 /* AppDelegate.swift */,
+				DC661E151C4F1A4800C076F7 /* Main.storyboard */,
+				DC661E181C4F1A4E00C076F7 /* LaunchScreen.storyboard */,
+				DC661DFF1C4F197800C076F7 /* Assets.xcassets */,
+				DC661E051C4F197800C076F7 /* ChildViewController.swift */,
+				DC661E061C4F197800C076F7 /* Info.plist */,
+				DC661E071C4F197800C076F7 /* SlideMenu.swift */,
 			);
 			name = FWSlideMenuDemoApp;
 			path = FWSlideOverDemoApp;
@@ -146,9 +147,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCF8E9331C4D12B40020F360 /* LaunchScreen.storyboard in Resources */,
-				DCF8E9301C4D12B40020F360 /* Assets.xcassets in Resources */,
-				DCF8E92E1C4D12B40020F360 /* Main.storyboard in Resources */,
+				DC661E171C4F1A4800C076F7 /* Main.storyboard in Resources */,
+				DC661E1A1C4F1A4E00C076F7 /* LaunchScreen.storyboard in Resources */,
+				DC661E091C4F197800C076F7 /* Assets.xcassets in Resources */,
+				DC661E0D1C4F197800C076F7 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,27 +161,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCF8E92B1C4D12B40020F360 /* ViewController.swift in Sources */,
-				DC01D1DC1C4D8EBB0003748E /* ChildViewController.swift in Sources */,
-				DCF8E9291C4D12B40020F360 /* AppDelegate.swift in Sources */,
+				DC661E0E1C4F197800C076F7 /* SlideMenu.swift in Sources */,
+				DC661E081C4F197800C076F7 /* AppDelegate.swift in Sources */,
+				DC661E0C1C4F197800C076F7 /* ChildViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		DCF8E92C1C4D12B40020F360 /* Main.storyboard */ = {
+		DC661E151C4F1A4800C076F7 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				DCF8E92D1C4D12B40020F360 /* Base */,
+				DC661E161C4F1A4800C076F7 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		DCF8E9311C4D12B40020F360 /* LaunchScreen.storyboard */ = {
+		DC661E181C4F1A4E00C076F7 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				DCF8E9321C4D12B40020F360 /* Base */,
+				DC661E191C4F1A4E00C076F7 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -273,7 +275,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = "";
-				INFOPLIST_FILE = FWSlideOverDemoApp/Info.plist;
+				INFOPLIST_FILE = FWSlideMenuDemoApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.wehnert.felix.FWSlideMenuDemoApp;
 				PRODUCT_NAME = FWSlideMenuDemoApp;
@@ -285,7 +287,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = "";
-				INFOPLIST_FILE = FWSlideOverDemoApp/Info.plist;
+				INFOPLIST_FILE = FWSlideMenuDemoApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.wehnert.felix.FWSlideMenuDemoApp;
 				PRODUCT_NAME = FWSlideMenuDemoApp;
