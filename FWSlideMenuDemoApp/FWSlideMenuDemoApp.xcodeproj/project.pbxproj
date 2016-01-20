@@ -34,7 +34,7 @@
 /* Begin PBXFileReference section */
 		DC01D1D21C4D58930003748E /* FWSlideMenu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = FWSlideMenu.framework; path = "/Users/Felix/Library/Developer/Xcode/DerivedData/FWSlideMenu-gmrmdbrvftyxssduumgfcuquutkg/Build/Products/Debug-iphoneos/FWSlideMenu.framework"; sourceTree = "<absolute>"; };
 		DC01D1DB1C4D8EBB0003748E /* ChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildViewController.swift; sourceTree = "<group>"; };
-		DCF8E9251C4D12B40020F360 /* FWSlideOverDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FWSlideOverDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCF8E9251C4D12B40020F360 /* FWSlideMenuDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FWSlideMenuDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCF8E9281C4D12B40020F360 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCF8E92A1C4D12B40020F360 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		DCF8E92D1C4D12B40020F360 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -59,7 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				DC01D1D21C4D58930003748E /* FWSlideMenu.framework */,
-				DCF8E9271C4D12B40020F360 /* FWSlideOverDemoApp */,
+				DCF8E9271C4D12B40020F360 /* FWSlideMenuDemoApp */,
 				DCF8E9261C4D12B40020F360 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -67,12 +67,12 @@
 		DCF8E9261C4D12B40020F360 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DCF8E9251C4D12B40020F360 /* FWSlideOverDemoApp.app */,
+				DCF8E9251C4D12B40020F360 /* FWSlideMenuDemoApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DCF8E9271C4D12B40020F360 /* FWSlideOverDemoApp */ = {
+		DCF8E9271C4D12B40020F360 /* FWSlideMenuDemoApp */ = {
 			isa = PBXGroup;
 			children = (
 				DCF8E9281C4D12B40020F360 /* AppDelegate.swift */,
@@ -83,15 +83,16 @@
 				DCF8E9311C4D12B40020F360 /* LaunchScreen.storyboard */,
 				DCF8E9341C4D12B40020F360 /* Info.plist */,
 			);
+			name = FWSlideMenuDemoApp;
 			path = FWSlideOverDemoApp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DCF8E9241C4D12B40020F360 /* FWSlideOverDemoApp */ = {
+		DCF8E9241C4D12B40020F360 /* FWSlideMenuDemoApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DCF8E9371C4D12B40020F360 /* Build configuration list for PBXNativeTarget "FWSlideOverDemoApp" */;
+			buildConfigurationList = DCF8E9371C4D12B40020F360 /* Build configuration list for PBXNativeTarget "FWSlideMenuDemoApp" */;
 			buildPhases = (
 				DCF8E9211C4D12B40020F360 /* Sources */,
 				DCF8E9221C4D12B40020F360 /* Frameworks */,
@@ -102,9 +103,9 @@
 			);
 			dependencies = (
 			);
-			name = FWSlideOverDemoApp;
+			name = FWSlideMenuDemoApp;
 			productName = FWSlideOverDemoApp;
-			productReference = DCF8E9251C4D12B40020F360 /* FWSlideOverDemoApp.app */;
+			productReference = DCF8E9251C4D12B40020F360 /* FWSlideMenuDemoApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -122,7 +123,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DCF8E9201C4D12B40020F360 /* Build configuration list for PBXProject "FWSlideOverDemoApp" */;
+			buildConfigurationList = DCF8E9201C4D12B40020F360 /* Build configuration list for PBXProject "FWSlideMenuDemoApp" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -135,7 +136,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DCF8E9241C4D12B40020F360 /* FWSlideOverDemoApp */,
+				DCF8E9241C4D12B40020F360 /* FWSlideMenuDemoApp */,
 			);
 		};
 /* End PBXProject section */
@@ -274,8 +275,8 @@
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = FWSlideOverDemoApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = me.wehnert.felix.FWSlideOverDemoApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = me.wehnert.felix.FWSlideMenuDemoApp;
+				PRODUCT_NAME = FWSlideMenuDemoApp;
 			};
 			name = Debug;
 		};
@@ -286,15 +287,15 @@
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = FWSlideOverDemoApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = me.wehnert.felix.FWSlideOverDemoApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = me.wehnert.felix.FWSlideMenuDemoApp;
+				PRODUCT_NAME = FWSlideMenuDemoApp;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DCF8E9201C4D12B40020F360 /* Build configuration list for PBXProject "FWSlideOverDemoApp" */ = {
+		DCF8E9201C4D12B40020F360 /* Build configuration list for PBXProject "FWSlideMenuDemoApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DCF8E9351C4D12B40020F360 /* Debug */,
@@ -303,7 +304,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DCF8E9371C4D12B40020F360 /* Build configuration list for PBXNativeTarget "FWSlideOverDemoApp" */ = {
+		DCF8E9371C4D12B40020F360 /* Build configuration list for PBXNativeTarget "FWSlideMenuDemoApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DCF8E9381C4D12B40020F360 /* Debug */,

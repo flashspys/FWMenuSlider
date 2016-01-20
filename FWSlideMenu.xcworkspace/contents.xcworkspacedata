@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:FWSlideOverDemoApp/FWSlideOverDemoApp.xcodeproj">
+      location = "group:/Users/Felix/Documents/Coding/Swift/iOS Projects/Frameworks/FWSlideMenu/FWSlideOverDemoApp/FWSlideMenuDemoApp.xcodeproj">
    </FileRef>
    <FileRef
       location = "container:FWSlideMenu/FWSlideMenu.xcodeproj">

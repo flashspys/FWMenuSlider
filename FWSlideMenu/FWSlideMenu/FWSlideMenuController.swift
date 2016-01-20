@@ -16,7 +16,6 @@ public enum SlideState {
 }
 
 public protocol FWSlideMenuControllerDelegate {
-    
     func slideStateChanged(state: SlideState)
 }
 

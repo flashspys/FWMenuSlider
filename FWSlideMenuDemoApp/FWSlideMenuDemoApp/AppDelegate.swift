@@ -26,8 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let child2 = story.instantiateViewControllerWithIdentifier("child2")
         child2.view.backgroundColor = UIColor.lightGrayColor()
         
-        
-        
         self.window?.rootViewController = FWSlideMenuController(childs: [child1, child2], slideMenuController: vc)
         
         return true
