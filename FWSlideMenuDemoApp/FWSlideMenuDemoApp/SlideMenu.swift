@@ -16,6 +16,8 @@ class SlideMenu: UIViewController, FWSlideMenuViewController, UITableViewDelegat
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var topConst: NSLayoutConstraint!
     
+    var backgroundView: UIView?
+    
     let menu = ["Vertretungsplan", "Klausuren", "Einstellungen", "Termine", "Lehrerliste", "Abmelden"]
 
     var slideController: FWSlideMenuController?
@@ -25,13 +27,21 @@ class SlideMenu: UIViewController, FWSlideMenuViewController, UITableViewDelegat
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "pattern")!)
+        self.backgroundView = UIView(frame: self.view.frame)
+        self.backgroundView?.frame.size.width += 50
+        self.backgroundView?.frame.origin.x -= 50
+        self.backgroundView?.backgroundColor = UIColor(patternImage: UIImage(named: "pattern")!)
+        //self.backgroundView?.layer.zPosition = -1
+        self.view.addSubview(self.backgroundView!)
+        self.view.sendSubviewToBack(self.backgroundView!)
+        self.view.clipsToBounds = true
         
         self.imageView.image = UIImage(named: "woman")!
         self.label.text = "Felix Wehnert"
         self.tableView.backgroundColor = UIColor.clearColor()
+        
+        super.viewDidLoad()
     }
 
     override func didReceiveMemoryWarning() {
@@ -69,7 +79,8 @@ class SlideMenu: UIViewController, FWSlideMenuViewController, UITableViewDelegat
         self.imageView.alpha = 1-progress
         self.label.alpha = 1-progress
         self.tableView.alpha = 1-progress
-        self.topConst.constant = -50*progress + 4
+        self.topConst.constant = -50*progress + 15
+        self.backgroundView?.frame.origin.x = 50*progress
         self.view.layoutIfNeeded()
 
     }
@@ -80,13 +91,15 @@ class SlideMenu: UIViewController, FWSlideMenuViewController, UITableViewDelegat
                 self.imageView.alpha = 1
                 self.label.alpha = 1
                 self.tableView.alpha = 1
-                self.topConst.constant = 4
+                self.topConst.constant = 15
+                self.backgroundView?.frame.origin.x = 0
                 self.view.layoutIfNeeded()
             } else {
                 self.imageView.alpha = 0
                 self.tableView.alpha = 0
                 self.label.alpha = 0
-                self.topConst.constant = -46
+                self.topConst.constant = -35
+                self.backgroundView?.frame.origin.x = 50
                 self.view.layoutIfNeeded()
             }
         }
