@@ -69,8 +69,8 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
     private var tapRecognizer: UITapGestureRecognizer?
     
     private var activeChild: UIViewController?
-    private let transparentLayerKey = "transparentLayerKey"
-    private let transparentLayerAnimationKey = "transparentLayerAnimationKey"
+    private let transparentLayerKey = "FWSlideMenuTransparentLayerKey"
+    private let transparentLayerAnimationKey = "FWSlideMenuTransparentLayerAnimationKey"
     
     public var slideOverFactor: CGFloat = 0.7
     public var slideDuration: Double = 0.4
