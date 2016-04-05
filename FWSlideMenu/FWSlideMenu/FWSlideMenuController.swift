@@ -20,7 +20,33 @@ public protocol FWSlideMenuViewController {
     func progressFinished(state: SlideState)
     func setController(controller: FWSlideMenuController)
 }
-
+/*
+ 
+ 
+ Important things you need to know:
+    - Your childView is not responding to any user interactions until slideState set to .Closed and we'll use the userInteractionEnabled property of YOUR view for this.
+    - We add a new layer to your childs you submitted to us.
+ 
+ Workflow of FWSlideMenu:
+ 
+ 1. FWSlideMenuController is initiated with the slider and the "child views"
+ 2. Childs added to childViews
+!   1. A new transparentLayer will be added to your view
+ 
+ 3. viewDidLoad:    
+    1. Touch guesture recognizers are initiiated
+!   2. Your slideOverView is stretched to exactly slideOverFactor times of the FWSlideMenuControllers width and will be positioned outside of the view
+    3. First VC of array will be shown
+ 
+ On slide or openSlideMenu: at every tick
+    1. moveSlideMenu will determine if view is closing, opening, closed or opened and will move your slideMenu to the right position
+        Progress will be transmitted (-> Protocol) to you right before our animation.
+    2. animateActiveChild: will do 3D animations on the currently active child view.
+ 
+ Your slideMenu should fire our displayViewController method to show new or known view controllers.
+ 
+ 
+ */
 public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
     
     private var slideState: SlideState  = .Closed {
