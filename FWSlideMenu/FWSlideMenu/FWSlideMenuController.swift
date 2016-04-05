@@ -53,8 +53,10 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         didSet {
             if slideState != .Closed {
                 self.panRecognizer?.enabled = true
+                self.activeChild!.view.userInteractionEnabled = false
             } else {
                 self.panRecognizer?.enabled = false
+                self.activeChild!.view.userInteractionEnabled = true
             }
         }
     }
@@ -156,7 +158,7 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         self.tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(recognizedTapGesture))
         self.tapRecognizer?.numberOfTapsRequired = 1
         self.tapRecognizer?.numberOfTouchesRequired = 1
-        self.tapRecognizer?.cancelsTouchesInView = false
+        self.tapRecognizer?.cancelsTouchesInView = true
         self.view.addGestureRecognizer(self.tapRecognizer!)
         
         self.slideMenuViewController.view.frame = CGRect(x: self.view.frame.width*(-self.slideOverFactor), y: 0, width: self.view.frame.width*self.slideOverFactor, height: self.view.frame.height)
