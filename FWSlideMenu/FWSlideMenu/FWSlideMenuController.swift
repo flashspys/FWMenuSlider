@@ -118,16 +118,16 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
     
     override public func viewDidLoad() {
         
-        self.screenEdgePanRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: "recognizedSwipeGesture:")
+        self.screenEdgePanRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(recognizedSwipeGesture))
         self.screenEdgePanRecognizer?.edges = UIRectEdge.Left
         self.view.addGestureRecognizer(self.screenEdgePanRecognizer!)
         
-        self.panRecognizer = UIPanGestureRecognizer(target: self, action: "recognizedSwipeGesture:")
+        self.panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(recognizedSwipeGesture))
         self.panRecognizer?.maximumNumberOfTouches = 1
         self.panRecognizer?.enabled = false
         self.view.addGestureRecognizer(self.panRecognizer!)
         
-        self.tapRecognizer = UITapGestureRecognizer(target: self, action: "recognizedTapGesture:")
+        self.tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(recognizedTapGesture))
         self.tapRecognizer?.numberOfTapsRequired = 1
         self.tapRecognizer?.numberOfTouchesRequired = 1
         self.tapRecognizer?.cancelsTouchesInView = false
