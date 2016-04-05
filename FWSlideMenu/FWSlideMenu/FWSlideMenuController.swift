@@ -113,15 +113,6 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         self.moveSlideMenu(-self.slideMenuViewController.view.frame.width, animated: true)
     }
     
-    private func flip(from: UIViewController, to: UIViewController) {
-        self.activeChild = to
-        self.animateActiveChild(self.zoomFactor, toState: .Opened)
-        
-        self.view.addSubview(to.view)
-        from.view.removeFromSuperview()
-        self.view.bringSubviewToFront(self.slideMenuViewController.view)
-    }
-    
     public func displayViewController(vc: UIViewController) {
         if !self.childViewControllers.contains(vc) {
             self.addChildViewController(vc)
@@ -170,9 +161,18 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         if childViewControllers.count != 0 {
             self.displayViewController(childViewControllers[0])
         } else {
-            fatalError("You did not provide a VC at init")
+            fatalError("You did not provide a ViewController at init")
         }
         
+    }
+    
+    private func flip(from: UIViewController, to: UIViewController) {
+        self.activeChild = to
+        self.animateActiveChild(self.zoomFactor, toState: .Opened)
+        
+        self.view.addSubview(to.view)
+        from.view.removeFromSuperview()
+        self.view.bringSubviewToFront(self.slideMenuViewController.view)
     }
     
     func recognizedTapGesture(recognizer:UITapGestureRecognizer) {
@@ -212,7 +212,7 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         
     }
     
-    private func moveSlideMenu(x: CGFloat, animated: Bool) {
+    private func moveSlideMenu(y: CGFloat, animated: Bool) {
         
         func mapValue(x: CGFloat, in_min: CGFloat, in_max: CGFloat, out_min: CGFloat, out_max: CGFloat) -> CGFloat
         {
@@ -220,7 +220,7 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         }
 
         var point = CGPoint(x: 0, y: 0)
-        point.x = min(0, x)
+        point.x = min(0, y)
         point.x = max(-self.slideMenuViewController.view.frame.width, point.x)
         
         // Get the current progress between 1 and zoomFactor(=0.9 default)
@@ -233,6 +233,7 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
             self.slideState = .Closing
         }
         
+        // Or did you even close/open?
         if point.x == 0 {
             self.slideState = .Opened
             (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.Opened)
@@ -261,10 +262,13 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         // Get our transparentLayer.
         let transparentLayer = self.activeChild?.view.layer.sublayers!.filter({$0.name == self.transparentLayerKey})[0]
         
+        // Create the opacity animation function
         let basicAnimation = CABasicAnimation(keyPath: "opacity")
         basicAnimation.duration = 0.35
         basicAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
         basicAnimation.fromValue = transparentLayer!.opacity
+        
+        // animate to 0 if closed; animate to 0.5 if opening
         if self.slideState == .Opened {
             basicAnimation.toValue = 0.5
             transparentLayer!.opacity = 0.5
@@ -277,11 +281,11 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
             transparentLayer!.opacity = Float(0.5-(progress-0.9)*(0.5)/(0.1))
         }
         
+        // exec the animation function
         transparentLayer!.addAnimation(basicAnimation, forKey: self.transparentLayerAnimationKey)
         
-        
-        // Animate all the 3D stuff
-        if state == .Opened || state == .Closed {
+        // Animate all the 3D stuff of the currently active VC
+        if state == .Opened || state == .Closed { // Animate the stuff directly
             
             UIView.animateWithDuration(0.4, animations: { () -> Void in
                 if self.slideState == .Opened {
@@ -291,7 +295,7 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
                 }
             })
             
-        } else {
+        } else { // "smooth" animate
             
             var transform: CATransform3D = CATransform3DIdentity;
             transform.m34 = 1.0 / 400.0; // This is something like the CSS command "perspective:"
