@@ -106,11 +106,57 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
     }
     
     public func openSlideMenu() {
-        self.moveSlideMenu(0, animated: true)
+        
+        UIView.animateWithDuration(self.slideDuration, animations: { () -> Void in
+            self.slideMenuViewController.view.frame.origin = CGPoint(x: 0, y: 0)
+            self.activeChild?.view.layer.transform = CATransform3DMakeScale(self.zoomFactor,self.zoomFactor,self.zoomFactor)
+        })
+        
+        // Get our transparentLayer.
+        let transparentLayer = self.activeChild?.view.layer.sublayers!.filter({$0.name == self.transparentLayerKey})[0]
+        
+        // Create the opacity animation function
+        let basicAnimation = CABasicAnimation(keyPath: "opacity")
+        basicAnimation.duration = 0.35
+        basicAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        basicAnimation.fromValue = transparentLayer!.opacity
+        
+        // animate to 0 if closed; animate to 0.5 if opening
+        basicAnimation.toValue = 0.5
+        transparentLayer!.opacity = 0.5
+        
+        // exec the animation function
+        transparentLayer!.addAnimation(basicAnimation, forKey: self.transparentLayerAnimationKey)
+        
+        self.slideState = .Opened
+        (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.Opened)
     }
     
     public func closeSlideMenu() {
-        self.moveSlideMenu(-self.slideMenuViewController.view.frame.width, animated: true)
+    
+        UIView.animateWithDuration(self.slideDuration, animations: { () -> Void in
+            self.slideMenuViewController.view.frame.origin = CGPoint(x: -self.slideMenuViewController.view.frame.width, y: 0)
+            self.activeChild?.view.layer.transform = CATransform3DIdentity
+        })
+        
+        // Get our transparentLayer.
+        let transparentLayer = self.activeChild?.view.layer.sublayers!.filter({$0.name == self.transparentLayerKey})[0]
+        
+        // Create the opacity animation function
+        let basicAnimation = CABasicAnimation(keyPath: "opacity")
+        basicAnimation.duration = 0.35
+        basicAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        basicAnimation.fromValue = 0.5
+        
+        // animate to 0 if closed; animate to 0.5 if opening
+        basicAnimation.toValue = 0
+        transparentLayer!.opacity = 0
+        
+        // exec the animation function
+        transparentLayer!.addAnimation(basicAnimation, forKey: self.transparentLayerAnimationKey)
+ 
+        self.slideState = .Closed
+        (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.Closed)
     }
     
     public func displayViewController(vc: UIViewController) {
@@ -124,11 +170,11 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
             self.view.addSubview(vc.view)
             self.view.bringSubviewToFront(self.slideMenuViewController.view)
         } else {
-            self.flip(self.activeChild!, to: vc)
+            self.flip(vc)
         }
         
         self.activeChild = vc
-        moveSlideMenu(self.slideMenuViewController.view.frame.width * (-1), animated: true)
+        self.closeSlideMenu()
     }
     
     public func displayViewController(index index: Int) {
@@ -166,28 +212,36 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         
     }
     
-    private func flip(from: UIViewController, to: UIViewController) {
+    private func flip(to: UIViewController) {
+        let old = self.activeChild!
         self.activeChild = to
-        self.animateActiveChild(self.zoomFactor, toState: .Opened)
+
+        UIView.animateWithDuration(0, animations: { () -> Void in
+            self.activeChild?.view.layer.transform = CATransform3DMakeScale(self.zoomFactor,self.zoomFactor,self.zoomFactor)
+        })
+        
+        // Get our transparentLayer.
+        let transparentLayer = self.activeChild?.view.layer.sublayers!.filter({$0.name == self.transparentLayerKey})[0]
+        transparentLayer!.opacity = 0.5
+        
+
         
         self.view.addSubview(to.view)
-        from.view.removeFromSuperview()
+        old.view.removeFromSuperview()
         self.view.bringSubviewToFront(self.slideMenuViewController.view)
+        self.closeSlideMenu()
     }
     
     func recognizedTapGesture(recognizer:UITapGestureRecognizer) {
         if self.slideState == .Opened && recognizer.locationInView(self.view).x >= self.view.frame.size.width*self.slideOverFactor {
-            self.moveSlideMenu(-self.slideMenuViewController.view.frame.width, animated: true)
+            self.closeSlideMenu()
         }
     }
     
     func recognizedSwipeGesture(recognizer:UIGestureRecognizer) {
         
         // If you move your finger from left to the very right you should see the fully ended animation. So lets stop the animation if your finger reached the slideMenuView's width
-        if recognizer.locationInView(self.view).x >= self.slideMenuViewController.view.frame.size.width && recognizer == self.screenEdgePanRecognizer {
-            self.moveSlideMenu(0, animated: true)
-            return
-        }
+
         
         // Stop do anything when you're moving your finger at the slideMenu. But start dragging if your finger is reaching the edge of slideMenuView
         if slideState == .Opened && recognizer == self.panRecognizer && recognizer.locationInView(self.view).x < (self.slideMenuViewController.view.frame.size.width-20) {
@@ -197,14 +251,14 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         switch recognizer.state {
         case .Changed, .Began, .Possible: // The animation is going on or just started
             let touchPoint = recognizer.locationInView(self.view).x
-            self.moveSlideMenu(touchPoint-self.slideMenuViewController.view.frame.width, animated: false)
+            self.moveSlideMenu(touchPoint-self.slideMenuViewController.view.frame.width)
             
         case .Ended, .Cancelled, .Failed: // Put the animation to a defined state
             switch self.slideState {
             case .Closing: // If the last known state was closing then close the menu
-                self.moveSlideMenu(self.slideMenuViewController.view.frame.size.width * -1, animated: true)
+                self.closeSlideMenu()
             case .Opening: // If the last known state was opening then open the menu
-                self.moveSlideMenu(0, animated: true)
+                self.openSlideMenu()
             default:
                 break
             }
@@ -212,7 +266,7 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         
     }
     
-    private func moveSlideMenu(y: CGFloat, animated: Bool) {
+    private func moveSlideMenu(x: CGFloat) {
         
         func mapValue(x: CGFloat, in_min: CGFloat, in_max: CGFloat, out_min: CGFloat, out_max: CGFloat) -> CGFloat
         {
@@ -220,7 +274,7 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         }
 
         var point = CGPoint(x: 0, y: 0)
-        point.x = min(0, y)
+        point.x = min(0, x)
         point.x = max(-self.slideMenuViewController.view.frame.width, point.x)
         
         // Get the current progress between 1 and zoomFactor(=0.9 default)
@@ -235,29 +289,26 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         
         // Or did you even close/open?
         if point.x == 0 {
+            print("\(NSDate()) open!")
             self.slideState = .Opened
             (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.Opened)
         } else if point.x == -self.slideMenuViewController.view.frame.width {
             self.slideState = .Closed
             (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.Closed)
         } else { // We're in animation
+            print(point.x)
             (self.slideMenuViewController as! FWSlideMenuViewController).progressChanged((currentProgress - 0.9) / 0.1) // convert our currentProgress to interval [0,1]
         }
         
         // Animate the slideMenuView
-        if !animated {
-            self.slideMenuViewController.view.frame.origin = point
-        } else {
-            UIView.animateWithDuration(self.slideDuration, animations: { () -> Void in
-                self.slideMenuViewController.view.frame.origin = point
-            })
-        }
+        self.slideMenuViewController.view.frame.origin = point
+      
         
         // Animate all the rest
-        self.animateActiveChild(currentProgress, toState: self.slideState)
+        self.animateActiveChild(currentProgress)
     }
     
-    private func animateActiveChild(progress: CGFloat, toState state: SlideState) {
+    private func animateActiveChild(progress: CGFloat) {
         
         // Get our transparentLayer.
         let transparentLayer = self.activeChild?.view.layer.sublayers!.filter({$0.name == self.transparentLayerKey})[0]
@@ -269,40 +320,25 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         basicAnimation.fromValue = transparentLayer!.opacity
         
         // animate to 0 if closed; animate to 0.5 if opening
-        if self.slideState == .Opened {
-            basicAnimation.toValue = 0.5
-            transparentLayer!.opacity = 0.5
-        } else if self.slideState == .Closed {
-            basicAnimation.toValue = 0
-            transparentLayer!.opacity = 0
-        } else { // for dragging animation I'll set the duration to 0, because setting opacity directly (w/o animation) is too slow. very crazy
-            basicAnimation.duration = 0
-            basicAnimation.toValue = Float(0.5-(progress-0.9)*(0.5)/(0.1))
-            transparentLayer!.opacity = Float(0.5-(progress-0.9)*(0.5)/(0.1))
-        }
+        basicAnimation.duration = 0
+        basicAnimation.toValue = Float(0.5-(progress-0.9)*(0.5)/(0.1))
+        transparentLayer!.opacity = Float(0.5-(progress-0.9)*(0.5)/(0.1))
+        
         
         // exec the animation function
         transparentLayer!.addAnimation(basicAnimation, forKey: self.transparentLayerAnimationKey)
         
         // Animate all the 3D stuff of the currently active VC
-        if state == .Opened || state == .Closed { // Animate the stuff directly
-            
-            UIView.animateWithDuration(0.4, animations: { () -> Void in
-                if self.slideState == .Opened {
-                    self.activeChild?.view.layer.transform = CATransform3DMakeScale(self.zoomFactor,self.zoomFactor,self.zoomFactor)
-                } else if self.slideState == .Closed {
-                    self.activeChild?.view.layer.transform = CATransform3DIdentity
-                }
+        if self.slideState == .Opened {
+            UIView.animateWithDuration(0.1, animations: { 
+                self.activeChild?.view.layer.transform = CATransform3DScale(CATransform3DIdentity, self.zoomFactor, self.zoomFactor, self.zoomFactor)
             })
-            
-        } else { // "smooth" animate
-            
+        } else {
             var transform: CATransform3D = CATransform3DIdentity;
             transform.m34 = 1.0 / 400.0; // This is something like the CSS command "perspective:"
             transform = CATransform3DRotate(transform, 1-progress, 0, 1, 0)
             transform = CATransform3DScale(transform, progress, progress, progress)
             self.activeChild?.view.layer.transform = transform;
-            
         }
     }
     
