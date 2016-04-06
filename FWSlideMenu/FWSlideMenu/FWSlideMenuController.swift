@@ -149,7 +149,7 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         self.tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(recognizedTapGesture))
         self.tapRecognizer?.numberOfTapsRequired = 1
         self.tapRecognizer?.numberOfTouchesRequired = 1
-        self.tapRecognizer?.cancelsTouchesInView = true
+        self.tapRecognizer?.cancelsTouchesInView = false // otherwise slideMenu is untappable
         self.view.addGestureRecognizer(self.tapRecognizer!)
         
         self.slideMenuViewController.view.frame = CGRect(x: self.view.frame.width*(-self.slideOverFactor), y: 0, width: self.view.frame.width*self.slideOverFactor, height: self.view.frame.height)
