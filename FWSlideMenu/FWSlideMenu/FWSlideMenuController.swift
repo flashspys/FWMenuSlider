@@ -146,7 +146,7 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         let basicAnimation = CABasicAnimation(keyPath: "opacity")
         basicAnimation.duration = 0.35
         basicAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-        basicAnimation.fromValue = 0.5
+        basicAnimation.fromValue = transparentLayer?.opacity
         
         // animate to 0 if closed; animate to 0.5 if opening
         basicAnimation.toValue = 0
@@ -154,7 +154,7 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         
         // exec the animation function
         transparentLayer!.addAnimation(basicAnimation, forKey: self.transparentLayerAnimationKey)
- 
+        
         self.slideState = .Closed
         (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.Closed)
     }
@@ -169,12 +169,12 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         } else if self.activeChild == nil {
             self.view.addSubview(vc.view)
             self.view.bringSubviewToFront(self.slideMenuViewController.view)
+            self.activeChild = vc
+            self.closeSlideMenu()
         } else {
             self.flip(vc)
         }
         
-        self.activeChild = vc
-        self.closeSlideMenu()
     }
     
     public func displayViewController(index index: Int) {
@@ -224,11 +224,10 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         let transparentLayer = self.activeChild?.view.layer.sublayers!.filter({$0.name == self.transparentLayerKey})[0]
         transparentLayer!.opacity = 0.5
         
-
-        
         self.view.addSubview(to.view)
         old.view.removeFromSuperview()
         self.view.bringSubviewToFront(self.slideMenuViewController.view)
+        
         self.closeSlideMenu()
     }
     
@@ -289,14 +288,12 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         
         // Or did you even close/open?
         if point.x == 0 {
-            print("\(NSDate()) open!")
             self.slideState = .Opened
             (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.Opened)
         } else if point.x == -self.slideMenuViewController.view.frame.width {
             self.slideState = .Closed
             (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.Closed)
         } else { // We're in animation
-            print(point.x)
             (self.slideMenuViewController as! FWSlideMenuViewController).progressChanged((currentProgress - 0.9) / 0.1) // convert our currentProgress to interval [0,1]
         }
         
