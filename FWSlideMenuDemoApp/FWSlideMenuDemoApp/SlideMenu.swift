@@ -22,7 +22,7 @@ class SlideMenu: UIViewController, FWSlideMenuViewController, UITableViewDelegat
 
     var slideController: FWSlideMenuController?
     
-    func setController(controller: FWSlideMenuController) {
+    func setController(_ controller: FWSlideMenuController) {
         self.slideController = controller
     }
     
@@ -34,12 +34,12 @@ class SlideMenu: UIViewController, FWSlideMenuViewController, UITableViewDelegat
         self.backgroundView?.backgroundColor = UIColor(patternImage: UIImage(named: "pattern")!)
         //self.backgroundView?.layer.zPosition = -1
         self.view.addSubview(self.backgroundView!)
-        self.view.sendSubviewToBack(self.backgroundView!)
+        self.view.sendSubview(toBack: self.backgroundView!)
         self.view.clipsToBounds = true
         
         self.imageView.image = UIImage(named: "woman")!
         self.label.text = "Felix Wehnert"
-        self.tableView.backgroundColor = UIColor.clearColor()
+        self.tableView.backgroundColor = UIColor.clear
         
         super.viewDidLoad()
     }
@@ -49,33 +49,33 @@ class SlideMenu: UIViewController, FWSlideMenuViewController, UITableViewDelegat
         // Dispose of any resources that can be recreated.
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menu.count
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell?
         
-        cell = tableView.dequeueReusableCellWithIdentifier("identifier")
-        if menu[indexPath.row] == "Abmelden" {
+        cell = tableView.dequeueReusableCell(withIdentifier: "identifier")
+        if menu[(indexPath as NSIndexPath).row] == "Abmelden" {
             cell?.backgroundColor = UIColor(red: 255/255, green: 82/255, blue: 82/255, alpha: 0.4)
         }
-        cell?.textLabel?.text = menu[indexPath.row]
-        cell?.selectionStyle = .Blue
+        cell?.textLabel?.text = menu[(indexPath as NSIndexPath).row]
+        cell?.selectionStyle = .blue
         return cell!
     }
 
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
-        self.slideController?.displayViewController(index: indexPath.row)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.tableView.deselectRow(at: indexPath, animated: false)
+        self.slideController?.displayViewController(index: (indexPath as NSIndexPath).row)
     }
     
-    func progressChanged(progress: CGFloat) {
+    func progressChanged(_ progress: CGFloat) {
         self.imageView.alpha = 1-progress
         self.label.alpha = 1-progress
         self.tableView.alpha = 1-progress
@@ -85,9 +85,9 @@ class SlideMenu: UIViewController, FWSlideMenuViewController, UITableViewDelegat
 
     }
     
-    func progressFinished(state: SlideState) {
-        UIView.animateWithDuration(0.3) { () -> Void in
-            if state == .Opened {
+    func progressFinished(_ state: SlideState) {
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            if state == .opened {
                 self.imageView.alpha = 1
                 self.label.alpha = 1
                 self.tableView.alpha = 1
@@ -102,7 +102,7 @@ class SlideMenu: UIViewController, FWSlideMenuViewController, UITableViewDelegat
                 self.backgroundView?.frame.origin.x = 50
                 self.view.layoutIfNeeded()
             }
-        }
+        }) 
 
     }
 }

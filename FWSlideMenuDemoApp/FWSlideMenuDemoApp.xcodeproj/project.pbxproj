@@ -120,6 +120,7 @@
 				TargetAttributes = {
 					DCF8E9241C4D12B40020F360 = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -278,6 +279,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.wehnert.felix.FWSlideMenuDemoApp;
 				PRODUCT_NAME = FWSlideMenuDemoApp;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -291,6 +293,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.wehnert.felix.FWSlideMenuDemoApp;
 				PRODUCT_NAME = FWSlideMenuDemoApp;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

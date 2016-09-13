@@ -8,13 +8,13 @@
 
 import UIKit
 import FWSlideMenu
-public class ChildViewController: UITableViewController {
+open class ChildViewController: UITableViewController {
     
-    @IBAction func open(sender: UIBarButtonItem) {
-        let controller = self.navigationController?.parentViewController as! FWSlideMenuController
+    @IBAction func open(_ sender: UIBarButtonItem) {
+        let controller = self.navigationController?.parent as! FWSlideMenuController
         controller.openSlideMenu()
     }
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         
     }
 }

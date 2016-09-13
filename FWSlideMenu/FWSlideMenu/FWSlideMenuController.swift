@@ -9,16 +9,16 @@
 import UIKit
 
 public enum SlideState {
-    case Opened
-    case Opening
-    case Closed
-    case Closing
+    case opened
+    case opening
+    case closed
+    case closing
 }
 
 public protocol FWSlideMenuViewController {
-    func progressChanged(progress: CGFloat)
-    func progressFinished(state: SlideState)
-    func setController(controller: FWSlideMenuController)
+    func progressChanged(_ progress: CGFloat)
+    func progressFinished(_ state: SlideState)
+    func setController(_ controller: FWSlideMenuController)
 }
 /*
  
@@ -47,16 +47,16 @@ public protocol FWSlideMenuViewController {
  
  
  */
-public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
+open class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
     
-    private var slideState: SlideState  = .Closed {
+    fileprivate var slideState: SlideState  = .closed {
         didSet {
-            if slideState != .Closed {
-                self.panRecognizer?.enabled = true
-                self.activeChild!.view.userInteractionEnabled = false
+            if slideState != .closed {
+                self.panRecognizer?.isEnabled = true
+                self.activeChild!.view.isUserInteractionEnabled = false
             } else {
-                self.panRecognizer?.enabled = false
-                self.activeChild!.view.userInteractionEnabled = true
+                self.panRecognizer?.isEnabled = false
+                self.activeChild!.view.isUserInteractionEnabled = true
             }
         }
     }
@@ -64,19 +64,19 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
     
     var slideMenuViewController: UIViewController
     
-    private var screenEdgePanRecognizer: UIScreenEdgePanGestureRecognizer?
-    private var panRecognizer: UIPanGestureRecognizer?
-    private var tapRecognizer: UITapGestureRecognizer?
+    fileprivate var screenEdgePanRecognizer: UIScreenEdgePanGestureRecognizer?
+    fileprivate var panRecognizer: UIPanGestureRecognizer?
+    fileprivate var tapRecognizer: UITapGestureRecognizer?
     
-    private var activeChild: UIViewController?
-    private let transparentLayerKey = "FWSlideMenuTransparentLayerKey"
-    private let transparentLayerAnimationKey = "FWSlideMenuTransparentLayerAnimationKey"
+    fileprivate var activeChild: UIViewController?
+    fileprivate let transparentLayerKey = "FWSlideMenuTransparentLayerKey"
+    fileprivate let transparentLayerAnimationKey = "FWSlideMenuTransparentLayerAnimationKey"
     
-    public var slideOverFactor: CGFloat = 0.7
-    public var slideDuration: Double = 0.4
-    private let zoomFactor: CGFloat = 0.9
+    open var slideOverFactor: CGFloat = 0.7
+    open var slideDuration: Double = 0.4
+    fileprivate let zoomFactor: CGFloat = 0.9
     
-    public init<T:UIViewController where T:FWSlideMenuViewController>(childs: [UIViewController], slideMenuController: T) {
+    public init<T:UIViewController>(childs: [UIViewController], slideMenuController: T) where T:FWSlideMenuViewController {
         self.slideMenuViewController = slideMenuController
         super.init(nibName: nil, bundle: nil)
         (self.slideMenuViewController as! FWSlideMenuViewController).setController(self)
@@ -91,11 +91,11 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         super.init(coder: aDecoder)
     }
     
-    override public func addChildViewController(childController: UIViewController) {
+    override open func addChildViewController(_ childController: UIViewController) {
         childController.view.layer.allowsEdgeAntialiasing = true
 
         let transparentLayer = CALayer()
-        transparentLayer.backgroundColor = UIColor.blackColor().CGColor
+        transparentLayer.backgroundColor = UIColor.black.cgColor
         transparentLayer.frame = childController.view.frame
         transparentLayer.opacity = 0
         transparentLayer.name = self.transparentLayerKey
@@ -105,9 +105,9 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         childController.view.frame = self.view.frame
     }
     
-    public func openSlideMenu() {
+    open func openSlideMenu() {
         
-        UIView.animateWithDuration(self.slideDuration, animations: { () -> Void in
+        UIView.animate(withDuration: self.slideDuration, animations: { () -> Void in
             self.slideMenuViewController.view.frame.origin = CGPoint(x: 0, y: 0)
             self.activeChild?.view.layer.transform = CATransform3DMakeScale(self.zoomFactor,self.zoomFactor,self.zoomFactor)
         })
@@ -126,15 +126,15 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         transparentLayer!.opacity = 0.5
         
         // exec the animation function
-        transparentLayer!.addAnimation(basicAnimation, forKey: self.transparentLayerAnimationKey)
+        transparentLayer!.add(basicAnimation, forKey: self.transparentLayerAnimationKey)
         
-        self.slideState = .Opened
-        (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.Opened)
+        self.slideState = .opened
+        (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.opened)
     }
     
-    public func closeSlideMenu() {
+    open func closeSlideMenu() {
     
-        UIView.animateWithDuration(self.slideDuration, animations: { () -> Void in
+        UIView.animate(withDuration: self.slideDuration, animations: { () -> Void in
             self.slideMenuViewController.view.frame.origin = CGPoint(x: -self.slideMenuViewController.view.frame.width, y: 0)
             self.activeChild?.view.layer.transform = CATransform3DIdentity
         })
@@ -153,13 +153,13 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         transparentLayer!.opacity = 0
         
         // exec the animation function
-        transparentLayer!.addAnimation(basicAnimation, forKey: self.transparentLayerAnimationKey)
+        transparentLayer!.add(basicAnimation, forKey: self.transparentLayerAnimationKey)
         
-        self.slideState = .Closed
-        (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.Closed)
+        self.slideState = .closed
+        (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.closed)
     }
     
-    public func displayViewController(vc: UIViewController) {
+    open func displayViewController(_ vc: UIViewController) {
         if !self.childViewControllers.contains(vc) {
             self.addChildViewController(vc)
         }
@@ -168,7 +168,7 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
             // do nothing
         } else if self.activeChild == nil {
             self.view.addSubview(vc.view)
-            self.view.bringSubviewToFront(self.slideMenuViewController.view)
+            self.view.bringSubview(toFront: self.slideMenuViewController.view)
             self.activeChild = vc
             self.closeSlideMenu()
         } else {
@@ -177,19 +177,19 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         
     }
     
-    public func displayViewController(index index: Int) {
+    open func displayViewController(index: Int) {
         self.displayViewController(self.childViewControllers[index])
     }
     
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         
         self.screenEdgePanRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(recognizedSwipeGesture))
-        self.screenEdgePanRecognizer?.edges = UIRectEdge.Left
+        self.screenEdgePanRecognizer?.edges = UIRectEdge.left
         self.view.addGestureRecognizer(self.screenEdgePanRecognizer!)
         
         self.panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(recognizedSwipeGesture))
         self.panRecognizer?.maximumNumberOfTouches = 1
-        self.panRecognizer?.enabled = false
+        self.panRecognizer?.isEnabled = false
         self.view.addGestureRecognizer(self.panRecognizer!)
         
         self.tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(recognizedTapGesture))
@@ -201,7 +201,7 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         self.slideMenuViewController.view.frame = CGRect(x: self.view.frame.width*(-self.slideOverFactor), y: 0, width: self.view.frame.width*self.slideOverFactor, height: self.view.frame.height)
         self.view.addSubview(self.slideMenuViewController.view)
         self.slideMenuViewController.view.layer.zPosition = 1000
-        self.slideMenuViewController.didMoveToParentViewController(self)
+        self.slideMenuViewController.didMove(toParentViewController: self)
         
         
         if childViewControllers.count != 0 {
@@ -212,11 +212,11 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         
     }
     
-    private func flip(to: UIViewController) {
+    fileprivate func flip(_ to: UIViewController) {
         let old = self.activeChild!
         self.activeChild = to
 
-        UIView.animateWithDuration(0, animations: { () -> Void in
+        UIView.animate(withDuration: 0, animations: { () -> Void in
             self.activeChild?.view.layer.transform = CATransform3DMakeScale(self.zoomFactor,self.zoomFactor,self.zoomFactor)
         })
         
@@ -226,37 +226,37 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         
         self.view.addSubview(to.view)
         old.view.removeFromSuperview()
-        self.view.bringSubviewToFront(self.slideMenuViewController.view)
+        self.view.bringSubview(toFront: self.slideMenuViewController.view)
         
         self.closeSlideMenu()
     }
     
-    func recognizedTapGesture(recognizer:UITapGestureRecognizer) {
-        if self.slideState == .Opened && recognizer.locationInView(self.view).x >= self.view.frame.size.width*self.slideOverFactor {
+    func recognizedTapGesture(_ recognizer:UITapGestureRecognizer) {
+        if self.slideState == .opened && recognizer.location(in: self.view).x >= self.view.frame.size.width*self.slideOverFactor {
             self.closeSlideMenu()
         }
     }
     
-    func recognizedSwipeGesture(recognizer:UIGestureRecognizer) {
+    func recognizedSwipeGesture(_ recognizer:UIGestureRecognizer) {
         
         // If you move your finger from left to the very right you should see the fully ended animation. So lets stop the animation if your finger reached the slideMenuView's width
 
         
         // Stop do anything when you're moving your finger at the slideMenu. But start dragging if your finger is reaching the edge of slideMenuView
-        if slideState == .Opened && recognizer == self.panRecognizer && recognizer.locationInView(self.view).x < (self.slideMenuViewController.view.frame.size.width-20) {
+        if slideState == .opened && recognizer == self.panRecognizer && recognizer.location(in: self.view).x < (self.slideMenuViewController.view.frame.size.width-20) {
             return
         }
         
         switch recognizer.state {
-        case .Changed, .Began, .Possible: // The animation is going on or just started
-            let touchPoint = recognizer.locationInView(self.view).x
+        case .changed, .began, .possible: // The animation is going on or just started
+            let touchPoint = recognizer.location(in: self.view).x
             self.moveSlideMenu(touchPoint-self.slideMenuViewController.view.frame.width)
             
-        case .Ended, .Cancelled, .Failed: // Put the animation to a defined state
+        case .ended, .cancelled, .failed: // Put the animation to a defined state
             switch self.slideState {
-            case .Closing: // If the last known state was closing then close the menu
+            case .closing: // If the last known state was closing then close the menu
                 self.closeSlideMenu()
-            case .Opening: // If the last known state was opening then open the menu
+            case .opening: // If the last known state was opening then open the menu
                 self.openSlideMenu()
             default:
                 break
@@ -265,9 +265,9 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         
     }
     
-    private func moveSlideMenu(x: CGFloat) {
+    fileprivate func moveSlideMenu(_ x: CGFloat) {
         
-        func mapValue(x: CGFloat, in_min: CGFloat, in_max: CGFloat, out_min: CGFloat, out_max: CGFloat) -> CGFloat
+        func mapValue(_ x: CGFloat, in_min: CGFloat, in_max: CGFloat, out_min: CGFloat, out_max: CGFloat) -> CGFloat
         {
             return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
         }
@@ -281,18 +281,18 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         
         // Are you about to close or open
         if self.slideMenuViewController.view.frame.origin.x < point.x {
-            self.slideState = .Opening
+            self.slideState = .opening
         } else {
-            self.slideState = .Closing
+            self.slideState = .closing
         }
         
         // Or did you even close/open?
         if point.x == 0 {
-            self.slideState = .Opened
-            (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.Opened)
+            self.slideState = .opened
+            (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.opened)
         } else if point.x == -self.slideMenuViewController.view.frame.width {
-            self.slideState = .Closed
-            (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.Closed)
+            self.slideState = .closed
+            (self.slideMenuViewController as! FWSlideMenuViewController).progressFinished(.closed)
         } else { // We're in animation
             (self.slideMenuViewController as! FWSlideMenuViewController).progressChanged((currentProgress - 0.9) / 0.1) // convert our currentProgress to interval [0,1]
         }
@@ -305,7 +305,7 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         self.animateActiveChild(currentProgress)
     }
     
-    private func animateActiveChild(progress: CGFloat) {
+    fileprivate func animateActiveChild(_ progress: CGFloat) {
         
         // Get our transparentLayer.
         let transparentLayer = self.activeChild?.view.layer.sublayers!.filter({$0.name == self.transparentLayerKey})[0]
@@ -323,11 +323,11 @@ public class FWSlideMenuController: UIViewController, UIGestureRecognizerDelegat
         
         
         // exec the animation function
-        transparentLayer!.addAnimation(basicAnimation, forKey: self.transparentLayerAnimationKey)
+        transparentLayer!.add(basicAnimation, forKey: self.transparentLayerAnimationKey)
         
         // Animate all the 3D stuff of the currently active VC
-        if self.slideState == .Opened {
-            UIView.animateWithDuration(0.1, animations: { 
+        if self.slideState == .opened {
+            UIView.animate(withDuration: 0.1, animations: { 
                 self.activeChild?.view.layer.transform = CATransform3DScale(CATransform3DIdentity, self.zoomFactor, self.zoomFactor, self.zoomFactor)
             })
         } else {

@@ -8,17 +8,17 @@
 
 import UIKit
 
-public class FWDefaultSlideMenuViewController: UIViewController, FWSlideMenuViewController {
+open class FWDefaultSlideMenuViewController: UIViewController, FWSlideMenuViewController {
     
-    public func setController(controller: FWSlideMenuController) {
+    open func setController(_ controller: FWSlideMenuController) {
         
     }
     
-    public func progressChanged(progress: CGFloat) {
+    open func progressChanged(_ progress: CGFloat) {
         
     }
     
-    public func progressFinished(state: SlideState) {
+    open func progressFinished(_ state: SlideState) {
         
     }
     
